@@ -5,9 +5,9 @@
       publicationDate: new Date(),
       title: "Testing this",
       author: "Me bitch",
+      isbn: 729523380,
     },
   })
-  console.log(data)
 </script>
 <template>
   <div>

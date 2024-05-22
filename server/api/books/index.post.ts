@@ -14,7 +14,12 @@ export default defineEventHandler(async (event) => {
     }
   } else {
     // If there are no errors, insert the body into the database
-    await db.insert(books).values(body)
+    const book = insertBookSchema.parse(body)
+    try {
+      const query = await db.insert(books).values(book)
+    } catch (e) {
+      return { success: false, message: "Database acting weird", error: e }
+    }
     return { success: true, message: "The book has been added" }
   }
 })
