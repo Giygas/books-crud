@@ -2,7 +2,9 @@
   const { data } = await useFetch("/api/books", {
     method: "POST",
     body: {
-      id: 25,
+      publicationDate: new Date(),
+      title: "Testing this",
+      author: "Me bitch",
     },
   })
   console.log(data)

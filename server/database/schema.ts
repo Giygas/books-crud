@@ -1,5 +1,7 @@
 import { sql } from "drizzle-orm"
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core"
+import { createInsertSchema } from "drizzle-zod"
+import { z } from "zod"
 
 export const books = sqliteTable("books", {
   id: integer("id").primaryKey({ autoIncrement: true }),
@@ -10,6 +12,11 @@ export const books = sqliteTable("books", {
   createdAt: integer("created_at", { mode: "timestamp" })
     .notNull()
     .$defaultFn(() => new Date()),
+})
+
+// Coerce the publication date String into a Date type
+export const insertBookSchema = createInsertSchema(books, {
+  publicationDate: z.coerce.date(),
 })
 
 export const users = sqliteTable("users", {
@@ -26,7 +33,7 @@ export const users = sqliteTable("users", {
     .default(sql`'[]'`),
 })
 
-export type insertBook = typeof books.$inferInsert
-export type selectBook = typeof books.$inferSelect
-export type insertUser = typeof users.$inferInsert
-export type selectUser = typeof users.$inferSelect
+export const insertUserSchema = createInsertSchema(users)
+
+export type Book = typeof books.$inferSelect
+export type User = typeof users.$inferSelect

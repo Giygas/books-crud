@@ -1,12 +1,12 @@
 import { randBetweenDate, randBook } from "@ngneat/falso"
 import { db } from "./db"
-import { books, type insertBook } from "./schema"
+import { books, insertBookSchema, type Book } from "./schema"
 
 const generateBooks = async (count: number) => {
   for (let i = 0; i < count; i++) {
     const randomBook = randBook()
 
-    const book: insertBook = {
+    const book = insertBookSchema.parse({
       title: randomBook.title,
       author: randomBook.author,
       isbn: Math.floor(Math.random() * 1000000000),
@@ -14,7 +14,7 @@ const generateBooks = async (count: number) => {
         from: new Date(2000, 0, 1),
         to: new Date(),
       }),
-    }
+    })
 
     await db.insert(books).values(book)
 
