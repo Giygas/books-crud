@@ -10,6 +10,7 @@ export default defineEventHandler(async (event) => {
   if (error) {
     setResponseStatus(event, 400)
     return {
+      success: false,
       error: true,
       errors: error.flatten().fieldErrors,
     }
@@ -18,7 +19,7 @@ export default defineEventHandler(async (event) => {
     try {
       const query = await db.insert(books).values(data)
     } catch (e) {
-      setResponseStatus(event, 400)
+      setResponseStatus(event, 500)
       return { success: false, message: "Database acting weird", error: e }
     }
     setResponseStatus(event, 201)
