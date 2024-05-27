@@ -1,15 +1,18 @@
 <script setup lang="ts">
   import { Button } from "@/components/ui/button"
   import { ChevronLeft } from "lucide-vue-next"
+  import { addBookToLocal } from "~/lib/utils"
+  import { type Book, selectBookSchema } from "~/server/database/schema"
 
   const { id: bookId } = useRoute().params
 
-  const { data } = await useFetch(`/api/books/${bookId}`)
+  const { data } = await useFetch<Book>(`/api/books/${bookId}`)
 
   const book = data.value
 
-  const addToLibrary = () => {
-    // TODO: add to user library
+  const addToLibrary = (book: Book) => {
+    // TODO: add to user library (Use local storage instead of a user database)
+    addBookToLocal(book)
     console.log("added")
   }
 </script>
@@ -19,7 +22,7 @@
     <ChevronLeft class="w-4 h-4" />
   </Button>
 
-  <div class="flex flex-row mt-10 p-16 gap-10" v-if="book">
+  <div class="flex flex-row mt-10 p-16 gap-10 w-full" v-if="book">
     <div>
       <img
         src="https://picsum.photos/seed/picsum/300/600"
@@ -27,7 +30,7 @@
         class="w-80 h-96 object-bottom object-cover"
       />
     </div>
-    <div class="flex flex-col gap-2">
+    <div class="flex flex-col gap-2 grow">
       <h2 class="text-6xl pb-8">{{ book.title }}</h2>
       <h3 class="text-xl"><strong>Author:</strong> {{ book.author }}</h3>
       <h4 class="text-xl">
@@ -35,11 +38,11 @@
         {{ new Date(book.publicationDate).toLocaleDateString("fr-FR") }}
       </h4>
       <h3 class="text-xl"><strong>ISBN:</strong> {{ book.isbn }}</h3>
-      <div class="self-end justify-self-end place-self-end mb-0 mt-auto">
+      <div class="mb-0 mt-auto">
         <Button
           variant="secondary"
           class="hover:bg-lime-200"
-          @click="addToLibrary"
+          @click="addToLibrary(book)"
           >Add to Library</Button
         >
       </div>

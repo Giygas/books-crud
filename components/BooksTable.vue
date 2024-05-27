@@ -11,8 +11,6 @@
 
   const { data } = await useFetch("/api/books")
 
-  const router = useRouter()
-
   function handleClick(bookId: number) {
     return navigateTo(`/book/${bookId}`)
   }

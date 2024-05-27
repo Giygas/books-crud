@@ -1,6 +1,6 @@
 import { sql } from "drizzle-orm"
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core"
-import { createInsertSchema } from "drizzle-zod"
+import { createInsertSchema, createSelectSchema } from "drizzle-zod"
 import { z } from "zod"
 
 export const books = sqliteTable("books", {
@@ -16,6 +16,10 @@ export const books = sqliteTable("books", {
 
 // Coerce the publication date String into a Date type
 export const insertBookSchema = createInsertSchema(books, {
+  publicationDate: z.coerce.date(),
+})
+
+export const selectBookSchema = createSelectSchema(books, {
   publicationDate: z.coerce.date(),
 })
 

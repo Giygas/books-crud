@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm"
 import { db } from "~/server/database/db"
-import { books } from "~/server/database/schema"
+import { books, selectBookSchema } from "~/server/database/schema"
 import type { Book } from "~/server/database/schema"
 
 export default defineEventHandler(async (event) => {
@@ -13,7 +13,9 @@ export default defineEventHandler(async (event) => {
     .limit(1)
 
   if (book) {
-    return book[0] as unknown as Book
+    const parsedBook = selectBookSchema.parse(book[0])
+
+    return parsedBook
   } else {
     return null
   }
