@@ -18,6 +18,8 @@ export function addBookToLocal(book: Book) {
     storageArray.push(JSON.parse(JSON.stringify(book)))
     localStorage.setItem("localLibrary", JSON.stringify(storageArray))
   }
+
+  return { success: true, message: "Book added to library !" }
 }
 
 export function removeBookFromLocal(bookId: number) {
@@ -29,5 +31,7 @@ export function removeBookFromLocal(bookId: number) {
     const filteredBooks = booksArray.filter((book) => book.id != bookId)
 
     localStorage.setItem("localLibrary", JSON.stringify(filteredBooks))
+
+    return { success: true, message: "Book removed successfully" }
   }
 }

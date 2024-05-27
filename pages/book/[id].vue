@@ -11,7 +11,6 @@
   const book = data.value
 
   const addToLibrary = (book: Book) => {
-    // TODO: add to user library (Use local storage instead of a user database)
     addBookToLocal(book)
     console.log("added")
   }

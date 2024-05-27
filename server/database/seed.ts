@@ -2,24 +2,36 @@ import { randBetweenDate, randBook } from "@ngneat/falso"
 import { db } from "./db"
 import { books, insertBookSchema, type Book } from "./schema"
 
-const generateBooks = async (count: number) => {
-  for (let i = 0; i < count; i++) {
-    const randomBook = randBook()
+// Use openlibrary API to get all fiction and love books ( 22 books I think)
+const [fantasyBooks, loveBooks] = await Promise.all([
+  fetch("https://openlibrary.org/subjects/fantasy.json?details=false").then(
+    (r) => r.json()
+  ),
+  fetch("https://openlibrary.org/subjects/love.json?details=false").then((r) =>
+    r.json()
+  ),
+])
 
-    const book = insertBookSchema.parse({
-      title: randomBook.title,
-      author: randomBook.author,
-      isbn: Math.floor(Math.random() * 1000000000),
-      publicationDate: randBetweenDate({
-        from: new Date(2000, 0, 1),
-        to: new Date(),
-      }),
-    })
-
-    await db.insert(books).values(book)
-
-    console.log(`Inserted book ${i + 1} of ${count}: ${book.title}`)
+async function insertBook(jsonData: any) {
+  const formattedJson = {
+    title: jsonData.title,
+    author: jsonData.authors[0].name,
+    isbn: jsonData.availability?.isbn,
+    publicationYear: jsonData.first_publish_year,
+    coverId: jsonData.cover_id,
   }
+  const bookData = insertBookSchema.parse(formattedJson)
+
+  await db.insert(books).values(bookData)
+
+  console.log("Inserted book: ")
+  console.log(bookData)
 }
 
-await generateBooks(20)
+for (const book of fantasyBooks.works) {
+  insertBook(book)
+}
+
+for (const book of loveBooks.works) {
+  insertBook(book)
+}
