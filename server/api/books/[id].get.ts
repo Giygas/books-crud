@@ -13,8 +13,8 @@ export default defineEventHandler(async (event) => {
     .limit(1)
 
   if (book) {
-    return book as unknown as Book
+    return book[0] as unknown as Book
+  } else {
+    return null
   }
-
-  return {}
 })

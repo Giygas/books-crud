@@ -9,16 +9,16 @@
 </script>
 
 <template>
-  <div class="flex flex-row justify-end gap-24 p-5">
+  <div class="flex flex-row justify-end p-5">
     <NavigationMenu>
       <NavigationMenuList>
-        <NavigationMenuItem>
+        <NavigationMenuItem class="flex flex-row gap-5">
           <NavigationMenuLink href="/" :class="navigationMenuTriggerStyle()">
             All books
           </NavigationMenuLink>
           <NavigationMenuLink
             href="/library"
-            class="text-primary-foreground bg-primary"
+            class="text-primary-foreground bg-primary hover:text-primary hover:bg-primary-foreground"
             :class="navigationMenuTriggerStyle()"
           >
             My Library

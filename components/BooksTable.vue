@@ -34,6 +34,7 @@
         v-for="book in data"
         :key="book.id"
         @click="handleClick(book.id)"
+        class="cursor-pointer"
       >
         <TableCell class="font-medium"> {{ book.title }} </TableCell>
         <TableCell>{{ book.author }}</TableCell>
