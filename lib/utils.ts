@@ -35,3 +35,15 @@ export function removeBookFromLocal(bookId: number) {
     return { success: true, message: "Book removed successfully" }
   }
 }
+
+export function getBooksInStorage() {
+  const library = localStorage.getItem("localLibrary")
+
+  if (!library) {
+    return null
+  }
+
+  const booksArray: Array<Book> = JSON.parse(library)
+
+  return booksArray
+}

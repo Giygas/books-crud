@@ -1,5 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  routeRules: {
+    "/library": { ssr: false },
+  },
   typescript: {
     typeCheck: true,
   },

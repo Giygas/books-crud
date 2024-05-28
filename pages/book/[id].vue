@@ -48,6 +48,7 @@
           :src="book.coverURL"
           class="object-cover object-center rounded-lg"
           @load="imgLoaded"
+          alt="{{ book.title }} cover"
         />
       </div>
     </div>
