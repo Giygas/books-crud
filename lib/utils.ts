@@ -13,6 +13,7 @@ export function addBookToLocal(book: Book) {
     const booksArray: Array<Book> = JSON.parse(localLibrary)
     booksArray.push(book)
     localStorage.setItem("localLibrary", JSON.stringify(booksArray))
+    //TODO: don't add the book if it's already in the library
   } else {
     const storageArray: Array<Book> = JSON.parse("[]")
     storageArray.push(JSON.parse(JSON.stringify(book)))

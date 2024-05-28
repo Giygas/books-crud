@@ -5,6 +5,7 @@
   import type { Book } from "~/server/database/schema"
 
   import { Skeleton } from "@/components/ui/skeleton"
+  import { toast } from "vue-sonner"
 
   const { id: bookId } = useRoute().params
 
@@ -28,8 +29,12 @@
   }
 
   const addToLibrary = (book: Book) => {
-    addBookToLocal(book)
-    console.log("added")
+    const result = addBookToLocal(book)
+    if (result.success) {
+      toast.success(result.message, {
+        description: book.title + " by: " + book.author,
+      })
+    }
   }
 </script>
 

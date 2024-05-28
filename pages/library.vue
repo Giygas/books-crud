@@ -2,20 +2,19 @@
   import { random } from "@ngneat/falso"
   import { getBooksInStorage } from "~/lib/utils"
   import { ref } from "vue"
-
-  let keyToReload = ref(0)
+  import { toast } from "vue-sonner"
 
   const removeAllBooks = () => {
     localStorage.removeItem("localLibrary")
+    toast("Books removed from Library !")
     navigateTo("/")
   }
 
   const books = getBooksInStorage()
-  console.log(books)
 </script>
 
 <template>
-  <div key="keyToReload">
+  <div>
     <div class="flex flex-row w-full justify-between items-center py-12">
       <h1 class="text-6xl">Your Library</h1>
       <Button v-if="books" variant="destructive" @click="removeAllBooks"
