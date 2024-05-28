@@ -9,7 +9,7 @@
     TableRow,
   } from "@/components/ui/table"
 
-  const { data } = await useFetch("/api/books")
+  const props = defineProps(["books"])
 
   function handleClick(bookId: number) {
     return navigateTo(`/book/${bookId}`)
@@ -29,7 +29,7 @@
     </TableHeader>
     <TableBody>
       <TableRow
-        v-for="book in data"
+        v-for="book in props.books"
         :key="book.id"
         @click="handleClick(book.id)"
         class="cursor-pointer"
