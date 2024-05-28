@@ -2,8 +2,6 @@ import { eq } from "drizzle-orm"
 import { db } from "~/server/database/db"
 import { books, selectBookSchema } from "~/server/database/schema"
 
-// TODO: getBookCover
-
 export default defineEventHandler(async (event) => {
   const bookId = Number(getRouterParam(event, "id"))
 

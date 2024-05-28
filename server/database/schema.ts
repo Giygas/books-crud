@@ -8,7 +8,7 @@ export const books = sqliteTable("books", {
   publicationYear: integer("publication_year").notNull(),
   title: text("title").notNull(),
   author: text("author").notNull(),
-  coverId: integer("cover_id").notNull(),
+  coverURL: text("cover_URL").notNull(),
   isbn: integer("isbn").unique(),
   openLibraryKey: text("open_library_key").notNull(),
   createdAt: integer("created_at", { mode: "timestamp" })

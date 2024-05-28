@@ -1,5 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  app: {
+    pageTransition: { name: "page", mode: "out-in" },
+  },
   typescript: {
     typeCheck: true,
   },
@@ -11,7 +14,12 @@ export default defineNuxtConfig({
       authToken: process.env.TURSO_AUTH_TOKEN,
     },
   },
-  modules: ["@nuxtjs/tailwindcss", "shadcn-nuxt", "@nuxt/eslint"],
+  modules: [
+    "@nuxtjs/tailwindcss",
+    "shadcn-nuxt",
+    "@nuxt/eslint",
+    "@nuxt/image",
+  ],
   shadcn: {
     /**
      * Prefix for all the imported component

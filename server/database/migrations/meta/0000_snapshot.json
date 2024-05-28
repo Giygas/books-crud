@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "7410715c-0a10-4799-8c82-1752aea3e577",
+  "id": "448685d2-a208-4a3a-b797-c5772b11ad12",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "books": {
@@ -35,9 +35,9 @@
           "notNull": true,
           "autoincrement": false
         },
-        "cover_id": {
-          "name": "cover_id",
-          "type": "integer",
+        "cover_URL": {
+          "name": "cover_URL",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false

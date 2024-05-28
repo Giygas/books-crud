@@ -3,7 +3,7 @@ CREATE TABLE `books` (
 	`publication_year` integer NOT NULL,
 	`title` text NOT NULL,
 	`author` text NOT NULL,
-	`cover_id` integer NOT NULL,
+	`cover_URL` text NOT NULL,
 	`isbn` integer,
 	`open_library_key` text NOT NULL,
 	`created_at` integer NOT NULL

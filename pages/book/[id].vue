@@ -12,11 +12,20 @@
 
   const book = data.value
 
-  const { pending, data: work } = useLazyFetch<any>(
+  const { pending, data: work } = await useLazyFetch<any>(
     `https://openlibrary.org${book?.openLibraryKey}.json`
   )
 
-  // TODO: add book cover
+  const isLoaded = useState("isLoaded")
+  const loading = useState("loading")
+
+  isLoaded.value = false
+  loading.value = true
+
+  const imgLoaded = () => {
+    loading.value = false
+    isLoaded.value = true
+  }
 
   const addToLibrary = (book: Book) => {
     addBookToLocal(book)
@@ -30,12 +39,17 @@
   </Button>
 
   <div class="flex flex-row mt-10 p-16 gap-10 w-full" v-if="book">
-    <div class="shrink-0">
-      <img
-        src="https://picsum.photos/seed/picsum/300/600"
-        alt="book cover"
-        class="w-80 h-96 object-bottom object-cover"
-      />
+    <div class="shrink-0 h-[125px] w-[250px]">
+      <div v-if="loading">
+        <Skeleton class="h-[350px] w-[250px] rounded-xl" />
+      </div>
+      <div v-show="isLoaded">
+        <img
+          :src="book.coverURL"
+          class="object-cover object-center rounded-lg"
+          @load="imgLoaded"
+        />
+      </div>
     </div>
     <div class="flex flex-col gap-2 grow">
       <h2 class="text-6xl pb-8">{{ book.title }}</h2>
@@ -54,13 +68,21 @@
             <Skeleton class="h-4 w-[500px]" />
             <Skeleton class="h-4 w-[400px]" />
             <Skeleton class="h-4 w-[450px]" />
+            <Skeleton class="h-4 w-[500px]" />
           </div>
         </div>
 
         <div v-else>
-          <p class="text-lg">
-            {{ work.description }}
+          <p class="text-lg" v-if="work.description">
+            {{
+              // Do this because some responses are wrongly formatted
+              typeof work.description === "string"
+                ? work.description
+                : work.description.value
+            }}
           </p>
+
+          <p class="text-lg" v-else>No description for this book</p>
         </div>
       </h3>
       <div class="mb-0 mt-auto mr-0 ml-auto">
