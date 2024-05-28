@@ -12,10 +12,11 @@
 
   const book = data.value
 
-  const { pending, data: work } = await useFetch<any>(
-    `https://openlibrary.org${book?.openLibraryKey}.json`,
-    { lazy: true }
+  const { pending, data: work } = useLazyFetch<any>(
+    `https://openlibrary.org${book?.openLibraryKey}.json`
   )
+
+  // TODO: add book cover
 
   const addToLibrary = (book: Book) => {
     addBookToLocal(book)
@@ -49,9 +50,10 @@
       <h3 class="text-xl">
         <strong>Description:</strong>
         <div class="flex items-center space-x-4" v-if="pending">
-          <div class="space-y-2">
-            <Skeleton class="h-4 w-[250px]" />
-            <Skeleton class="h-4 w-[200px]" />
+          <div class="space-y-4">
+            <Skeleton class="h-4 w-[500px]" />
+            <Skeleton class="h-4 w-[400px]" />
+            <Skeleton class="h-4 w-[450px]" />
           </div>
         </div>
 
