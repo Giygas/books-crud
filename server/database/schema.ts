@@ -10,6 +10,7 @@ export const books = sqliteTable("books", {
   author: text("author").notNull(),
   coverId: integer("cover_id").notNull(),
   isbn: integer("isbn").unique(),
+  openLibraryKey: text("open_library_key").notNull(),
   createdAt: integer("created_at", { mode: "timestamp" })
     .notNull()
     .$defaultFn(() => new Date()),

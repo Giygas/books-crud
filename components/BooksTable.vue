@@ -23,7 +23,7 @@
       <TableRow>
         <TableHead>Title </TableHead>
         <TableHead>Author</TableHead>
-        <TableHead> Publication Date </TableHead>
+        <TableHead> Publication Year </TableHead>
         <TableHead class="text-right">Isbn</TableHead>
       </TableRow>
     </TableHeader>
@@ -37,9 +37,11 @@
         <TableCell class="font-medium"> {{ book.title }} </TableCell>
         <TableCell>{{ book.author }}</TableCell>
         <TableCell>
-          {{ new Date(book.publicationDate).toLocaleDateString("fr-FR") }}
+          {{ book.publicationYear }}
         </TableCell>
-        <TableCell class="text-right">{{ book.isbn }}</TableCell>
+        <TableCell class="text-right">{{
+          book.isbn ? book.isbn : "Not specified"
+        }}</TableCell>
       </TableRow>
     </TableBody>
   </Table>

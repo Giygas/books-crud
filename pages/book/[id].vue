@@ -2,13 +2,20 @@
   import { Button } from "@/components/ui/button"
   import { ChevronLeft } from "lucide-vue-next"
   import { addBookToLocal } from "~/lib/utils"
-  import { type Book, selectBookSchema } from "~/server/database/schema"
+  import type { Book } from "~/server/database/schema"
+
+  import { Skeleton } from "@/components/ui/skeleton"
 
   const { id: bookId } = useRoute().params
 
   const { data } = await useFetch<Book>(`/api/books/${bookId}`)
 
   const book = data.value
+
+  const { pending, data: work } = await useFetch<any>(
+    `https://openlibrary.org${book?.openLibraryKey}.json`,
+    { lazy: true }
+  )
 
   const addToLibrary = (book: Book) => {
     addBookToLocal(book)
@@ -22,7 +29,7 @@
   </Button>
 
   <div class="flex flex-row mt-10 p-16 gap-10 w-full" v-if="book">
-    <div>
+    <div class="shrink-0">
       <img
         src="https://picsum.photos/seed/picsum/300/600"
         alt="book cover"
@@ -32,12 +39,29 @@
     <div class="flex flex-col gap-2 grow">
       <h2 class="text-6xl pb-8">{{ book.title }}</h2>
       <h3 class="text-xl"><strong>Author:</strong> {{ book.author }}</h3>
-      <h4 class="text-xl">
-        <strong>Publication Date:</strong>
-        {{ new Date(book.publicationDate).toLocaleDateString("fr-FR") }}
-      </h4>
-      <h3 class="text-xl"><strong>ISBN:</strong> {{ book.isbn }}</h3>
-      <div class="mb-0 mt-auto">
+      <h3 class="text-xl">
+        <strong>Publication Year:</strong>
+        {{ book.publicationYear }}
+      </h3>
+      <h3 class="text-xl">
+        <strong>ISBN:</strong> {{ book.isbn ? book.isbn : "Not specified" }}
+      </h3>
+      <h3 class="text-xl">
+        <strong>Description:</strong>
+        <div class="flex items-center space-x-4" v-if="pending">
+          <div class="space-y-2">
+            <Skeleton class="h-4 w-[250px]" />
+            <Skeleton class="h-4 w-[200px]" />
+          </div>
+        </div>
+
+        <div v-else>
+          <p class="text-lg">
+            {{ work.description }}
+          </p>
+        </div>
+      </h3>
+      <div class="mb-0 mt-auto mr-0 ml-auto">
         <Button
           variant="secondary"
           class="hover:bg-lime-200"

@@ -5,6 +5,7 @@ CREATE TABLE `books` (
 	`author` text NOT NULL,
 	`cover_id` integer NOT NULL,
 	`isbn` integer,
+	`open_library_key` text NOT NULL,
 	`created_at` integer NOT NULL
 );
 --> statement-breakpoint

@@ -14,6 +14,7 @@ const [fantasyBooks, loveBooks] = await Promise.all([
 
 async function insertBook(jsonData: any) {
   const formattedJson = {
+    openLibraryKey: jsonData.key,
     title: jsonData.title,
     author: jsonData.authors[0].name,
     isbn: jsonData.availability?.isbn,
