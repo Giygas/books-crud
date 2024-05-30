@@ -1,16 +1,14 @@
 <script setup lang="ts">
-  import { random } from "@ngneat/falso"
-  import { getBooksInStorage } from "~/lib/utils"
-  import { ref } from "vue"
-  import { toast } from "vue-sonner"
+import { getBooksInStorage } from "~/lib/utils";
+import { toast } from "vue-sonner";
 
-  const removeAllBooks = () => {
-    localStorage.removeItem("localLibrary")
-    toast("Books removed from Library !")
-    navigateTo("/")
-  }
+const removeAllBooks = () => {
+  localStorage.removeItem("localLibrary");
+  toast.warning("Books removed from Library !");
+  navigateTo("/");
+};
 
-  const books = getBooksInStorage()
+const books = getBooksInStorage();
 </script>
 
 <template>

@@ -1,19 +1,19 @@
 <script setup lang="ts">
-  import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-  } from "@/components/ui/table"
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
-  const props = defineProps(["books"])
+const props = defineProps(["books"]);
 
-  function handleClick(bookId: number) {
-    return navigateTo(`/book/${bookId}`)
-  }
+function handleClick(bookId: number) {
+  return navigateTo(`/book/${bookId}`);
+}
 </script>
 
 <template>
@@ -31,8 +31,8 @@
       <TableRow
         v-for="book in props.books"
         :key="book.id"
-        @click="handleClick(book.id)"
         class="cursor-pointer"
+        @click="handleClick(book.id)"
       >
         <TableCell class="font-medium"> {{ book.title }} </TableCell>
         <TableCell>{{ book.author }}</TableCell>
