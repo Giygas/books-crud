@@ -1,45 +1,45 @@
 <script setup lang="ts">
-import { Button } from "@/components/ui/button";
-import { ChevronLeft } from "lucide-vue-next";
-import { addBookToLocal } from "~/lib/utils";
-import type { Book } from "~/server/database/schema";
+  import { Button } from "@/components/ui/button"
+  import { ChevronLeft } from "lucide-vue-next"
+  import { addBookToLocal } from "~/lib/utils"
+  import type { Book } from "~/server/database/schema"
 
-import { Skeleton } from "@/components/ui/skeleton";
-import { toast } from "vue-sonner";
+  import { Skeleton } from "@/components/ui/skeleton"
+  import { toast } from "vue-sonner"
 
-const { id: bookId } = useRoute().params;
+  const { id: bookId } = useRoute().params
 
-const { data } = await useFetch<Book>(`/api/books/${bookId}`);
+  const { data } = await useFetch<Book>(`/api/books/${bookId}`)
 
-const book = data.value;
+  const book = data.value
 
-interface WorkDescription {
-  description?: string | { value: string };
-}
-
-const { pending, data: work } = await useLazyFetch<WorkDescription>(
-  `https://openlibrary.org${book?.openLibraryKey}.json`,
-);
-
-const isLoaded = useState("isLoaded");
-const loading = useState("loading");
-
-isLoaded.value = false;
-loading.value = true;
-
-const imgLoaded = () => {
-  loading.value = false;
-  isLoaded.value = true;
-};
-
-const addToLibrary = (book: Book) => {
-  const result = addBookToLocal(book);
-  if (result.success) {
-    toast.success(result.message, {
-      description: book.title + " by: " + book.author,
-    });
+  interface WorkDescription {
+    description?: string | { value: string }
   }
-};
+
+  const { pending, data: work } = await useLazyFetch<WorkDescription>(
+    `https://openlibrary.org${book?.openLibraryKey}.json`
+  )
+
+  const isLoaded = useState("isLoaded")
+  const loading = useState("loading")
+
+  isLoaded.value = false
+  loading.value = true
+
+  const imgLoaded = () => {
+    loading.value = false
+    isLoaded.value = true
+  }
+
+  const addToLibrary = (book: Book) => {
+    const result = addBookToLocal(book)
+    if (result.success) {
+      toast.success(result.message, {
+        description: book.title + " by: " + book.author,
+      })
+    }
+  }
 </script>
 
 <template>
@@ -84,11 +84,10 @@ const addToLibrary = (book: Book) => {
           </div>
 
           <div v-else>
-            <p v-if="work.description" class="text-lg">
+            <p v-if="work?.description" class="text-lg">
               {{
                 // Do this because some responses are wrongly formatted
                 // Safely access the description and handle different formats
-                //@ts-nocheck
                 typeof work.description === "object" &&
                 work.description !== null
                   ? work.description.value
