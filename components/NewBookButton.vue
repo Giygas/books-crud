@@ -7,20 +7,28 @@
     DialogTitle,
     DialogTrigger,
   } from "@/components/ui/dialog"
+
+  const props = defineProps<{
+    id: number | undefined
+  }>()
+
+  const isBookEdit = props.id ? true : false
 </script>
+
 <template>
   <Dialog>
     <DialogTrigger as-child>
-      <Button variant="outline"> Add a new Book </Button>
+      <Button v-if="!isBookEdit" variant="outline"> Add a new Book </Button>
+      <Button v-if="isBookEdit" variant="outline"> Edit Book </Button>
     </DialogTrigger>
     <DialogContent class="w-full">
       <DialogHeader>
-        <DialogTitle>Add a new Book</DialogTitle>
+        <DialogTitle>Edit Book</DialogTitle>
         <DialogDescription>
-          You can add a new book here. Click submit when you're done.
+          You can edit the book here. Click submit when you're done.
         </DialogDescription>
       </DialogHeader>
-      <NewBookForm />
+      <NewBookForm :book-id="id" />
     </DialogContent>
   </Dialog>
 </template>

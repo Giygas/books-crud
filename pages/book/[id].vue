@@ -3,13 +3,12 @@
   import { ChevronLeft } from "lucide-vue-next"
   import { addBookToLocal } from "~/lib/utils"
   import type { Book } from "~/server/database/schema"
-
   import { Skeleton } from "@/components/ui/skeleton"
   import { toast } from "vue-sonner"
 
-  //TODO: edit the book
-
   const { id: bookId } = useRoute().params
+
+  const intId = Number(bookId)
 
   const { data } = await useFetch<Book>(`/api/books/${bookId}`)
 
@@ -109,6 +108,8 @@
             @click="addToLibrary(book)"
             >Add to Library</Button
           >
+
+          <NewBookButton :id="intId" />
         </div>
       </div>
     </div>
