@@ -6,7 +6,13 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: true,
   },
-  devtools: { enabled: true },
+  devtools: {
+    enabled: true,
+
+    timeline: {
+      enabled: true,
+    },
+  },
   telemetry: false,
   runtimeConfig: {
     turso: {
@@ -16,10 +22,14 @@ export default defineNuxtConfig({
   },
   modules: [
     "@nuxtjs/tailwindcss",
+    "@nuxtjs/color-mode",
     "shadcn-nuxt",
     "@nuxt/eslint",
     "@nuxt/image",
   ],
+  colorMode: {
+    classSuffix: "",
+  },
   shadcn: {
     /**
      * Prefix for all the imported component
@@ -31,4 +41,4 @@ export default defineNuxtConfig({
      */
     componentDir: "./components/ui",
   },
-});
+})

@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
+  import {
+    NavigationMenu,
+    NavigationMenuItem,
+    NavigationMenuLink,
+    NavigationMenuList,
+    navigationMenuTriggerStyle,
+  } from "@/components/ui/navigation-menu"
 
-//TODO: Add add book to library functionality
+  //TODO: Add add book to library functionality
 </script>
 
 <template>
@@ -24,6 +24,9 @@ import {
             :class="navigationMenuTriggerStyle()"
           >
             My Library
+          </NavigationMenuLink>
+          <NavigationMenuLink>
+            <ThemeButton />
           </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
