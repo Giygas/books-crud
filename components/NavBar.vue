@@ -6,8 +6,6 @@
     NavigationMenuList,
     navigationMenuTriggerStyle,
   } from "@/components/ui/navigation-menu"
-
-  //TODO: Add add book to library functionality
 </script>
 
 <template>

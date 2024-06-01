@@ -7,6 +7,8 @@
   import { Skeleton } from "@/components/ui/skeleton"
   import { toast } from "vue-sonner"
 
+  //TODO: edit the book
+
   const { id: bookId } = useRoute().params
 
   const { data } = await useFetch<Book>(`/api/books/${bookId}`)
@@ -38,6 +40,8 @@
       toast.success(result.message, {
         description: book.title + " by: " + book.author,
       })
+    } else {
+      toast.error(result.message)
     }
   }
 </script>

@@ -1,8 +1,16 @@
 <script setup lang="ts">
   import { Toaster } from "@/components/ui/sonner"
+
+  type Theme = "light" | "dark" | "system"
+
+  const colorMode = useColorMode()
 </script>
 <template>
-  <Toaster theme="dark" position="top-center" />
+  <Toaster
+    :rich-colors="true"
+    :theme="colorMode.preference as Theme"
+    position="top-center"
+  />
   <NuxtLayout>
     <NuxtPage
       :transition="{
