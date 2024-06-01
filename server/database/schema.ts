@@ -22,6 +22,8 @@ export const insertBookSchema = createInsertSchema(books, {
   isbn: z.coerce.number().nullable(),
 })
 
+export type insertBook = z.infer<typeof insertBookSchema>
+
 export const selectBookSchema = createSelectSchema(books, {
   createdAt: z.coerce.date(),
 })

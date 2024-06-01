@@ -6,7 +6,6 @@
   let books: Book[] = []
   if (data.value !== null) {
     const parsedBooks = data.value.map((item) => selectBookSchema.parse(item))
-    console.log(parsedBooks)
     books = parsedBooks
   }
 </script>
