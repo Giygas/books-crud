@@ -1,3 +1,0 @@
-<template>
-    <NewBookForm />
-</template>
