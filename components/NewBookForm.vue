@@ -1,10 +1,20 @@
 <script setup lang="ts">
-  import { useForm } from "vee-validate"
+  import { useForm, type FormContext } from "vee-validate"
   import { toTypedSchema } from "@vee-validate/zod"
   import { Button } from "@/components/ui/button"
   import { AutoForm } from "@/components/ui/auto-form"
   import { z } from "zod"
   import { useMessageData } from "~/lib/store"
+  import type { Book } from "~/server/database/schema"
+
+  const props = defineProps<{
+    bookId: number | undefined
+  }>()
+
+  const isUpdatePage = props.bookId ? true : false
+
+  // Use the global messageData object for sending messages through the app
+  const messageData = useMessageData()
 
   const schema = z.object({
     title: z
@@ -29,7 +39,9 @@
       })
       .int("The ISBN must be an integer")
       .gte(1000000000, { message: "The ISBN must have at least 10 digits" })
-      .lte(9999999999999, { message: "The ISBN must have at max 13 digits" }),
+      .lte(9999999999999, { message: "The ISBN must have at max 13 digits" })
+      .nullable()
+      .optional(),
     coverURL: z.string({
       required_error: "The cover URL is required",
     }),
@@ -40,32 +52,48 @@
       .describe("Open Library works key in the format: /works/######"),
   })
 
-  const form = useForm({
-    validationSchema: toTypedSchema(schema),
-  })
+  let form: FormContext
+  let book: Book
 
-  const messageData = useMessageData()
+  if (isUpdatePage) {
+    const { data } = await useFetch<Book>(`/api/books/${props.bookId}`)
 
-  //@ts-expect-error if I put z.infer<typeof schema> as the type it doesn't work
+    book = data.value as Book
+
+    form = useForm({
+      validationSchema: toTypedSchema(schema),
+      initialValues: { ...book },
+    })
+  } else {
+    form = useForm({
+      validationSchema: toTypedSchema(schema),
+    })
+  }
+
+  //@ts-expect-error if I put z.infer<typeof schema> as the data type it doesn't work
   async function onSubmit(data) {
     const validatedBook = schema.parse(data)
 
     try {
-      const query = await $fetch("/api/books", {
-        method: "post",
-        body: {
-          ...validatedBook,
-        },
-      })
-
-      console.log("API RESPONSE")
-      console.log(query)
+      let query
+      if (isUpdatePage && book?.id) {
+        query = await $fetch(`/api/books/${book.id}`, {
+          method: "PUT",
+          body: {
+            ...validatedBook,
+          },
+        })
+      } else {
+        query = await $fetch("/api/books", {
+          method: "POST",
+          body: {
+            ...validatedBook,
+          },
+        })
+      }
 
       if (query !== null && typeof query.message === "string") {
-        const response = query
-
-        console.log("Response")
-        console.log(response)
+        // Send the message to the toast
         messageData.value = {
           success: query.success,
           message: query.message,
@@ -78,30 +106,6 @@
         message: String(e),
       }
     }
-
-    // const { data: apiReponse } = await useFetch("/api/books", {
-    //   method: "post",
-    //   body: {
-    //     ...validatedBook,
-    //   },
-    // })
-
-    // console.log("API RESPONSE")
-    // console.log(apiReponse)
-
-    // if (
-    //   apiReponse.value !== null &&
-    //   typeof apiReponse.value.message === "string"
-    // ) {
-    //   const response = apiReponse
-
-    //   console.log("Response")
-    //   console.log(response)
-    //   messageData.value = {
-    //     success: apiReponse.value.success,
-    //     message: apiReponse.value.message,
-    //   }
-    // }
   }
 </script>
 
@@ -134,6 +138,11 @@
     }"
     @submit="onSubmit"
   >
-    <Button type="submit" class="mt-5 w-full"> Submit </Button>
+    <Button v-if="isUpdatePage" type="submit" class="mt-5 w-full">
+      Update
+    </Button>
+    <Button v-if="!isUpdatePage" type="submit" class="mt-5 w-full">
+      Submit
+    </Button>
   </AutoForm>
 </template>

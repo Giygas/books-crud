@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
     try {
       const insert = await db.insert(books).values(book)
 
-      console.log("insert", insert)
+      console.log("DB Insert: ", insert)
     } catch (e) {
       setResponseStatus(event, 500)
       return { success: false, error: true, message: String(e) }
