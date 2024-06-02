@@ -112,7 +112,7 @@
             <p v-else class="text-lg">No description for this book</p>
           </div>
         </h3>
-        <div class="mb-0 mt-auto mr-0 ml-auto">
+        <div class="flex flex-row justify-end gap-4">
           <Button
             variant="secondary"
             class="hover:bg-lime-200"
