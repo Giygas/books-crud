@@ -57,7 +57,7 @@
         </NavigationMenuLink>
       </NavigationMenuItem>
 
-      <NavigationMenuItem>
+      <NavigationMenuItem class="ml-2">
         <NavigationMenuLink>
           <ThemeButton />
         </NavigationMenuLink>
