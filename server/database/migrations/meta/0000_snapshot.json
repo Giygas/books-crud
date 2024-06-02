@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "448685d2-a208-4a3a-b797-c5772b11ad12",
+  "id": "d94e8531-ba1d-4edc-9908-ebe74e931cd5",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "books": {
@@ -67,7 +67,9 @@
       "indexes": {
         "books_isbn_unique": {
           "name": "books_isbn_unique",
-          "columns": ["isbn"],
+          "columns": [
+            "isbn"
+          ],
           "isUnique": true
         }
       },

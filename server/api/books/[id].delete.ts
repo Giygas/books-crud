@@ -1,4 +1,3 @@
-// TODO: delete book by id
 import { eq } from "drizzle-orm"
 import { db } from "~/server/database/db"
 import { books, selectBookSchema } from "~/server/database/schema"
