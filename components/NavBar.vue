@@ -28,30 +28,42 @@
 </script>
 
 <template>
-  <div :key="route.fullPath" class="flex flex-row justify-end p-5">
-    <DeleteBookButton
-      v-if="showDelete"
-      :book-id="bookId as number"
-      class="mr-auto ml-12 hover:bg-red-950"
-    />
-    <NavigationMenu>
-      <NavigationMenuList>
-        <NavigationMenuItem class="flex flex-row gap-5">
-          <NavigationMenuLink href="/" :class="navigationMenuTriggerStyle()">
-            All books
-          </NavigationMenuLink>
-          <NavigationMenuLink
-            href="/library"
-            class="text-primary-foreground bg-primary hover:text-primary hover:bg-primary-foreground"
-            :class="navigationMenuTriggerStyle()"
-          >
-            My Library
-          </NavigationMenuLink>
-          <NavigationMenuLink>
-            <ThemeButton />
-          </NavigationMenuLink>
-        </NavigationMenuItem>
-      </NavigationMenuList>
-    </NavigationMenu>
-  </div>
+  <NavigationMenu
+    :key="route.fullPath"
+    class="flex flex-row justify-end p-5 w-full max-w-full gap-5"
+  >
+    <NavigationMenuList class="w-full min-w-full flex flex-row justify-between">
+      <NavigationMenuItem class="mr-auto ml-12">
+        <DeleteBookButton v-if="showDelete" :book-id="bookId as number" />
+      </NavigationMenuItem>
+
+      <NavigationMenuItem>
+        <NavigationMenuLink href="/" :class="navigationMenuTriggerStyle()">
+          All books
+        </NavigationMenuLink>
+      </NavigationMenuItem>
+
+      <NavigationMenuItem>
+        <NavigationMenuLink
+          href="/library"
+          class="text-primary-foreground bg-primary hover:text-primary hover:bg-primary-foreground"
+          :class="navigationMenuTriggerStyle()"
+        >
+          My Library
+        </NavigationMenuLink>
+      </NavigationMenuItem>
+
+      <NavigationMenuItem>
+        <NavigationMenuLink>
+          <ThemeButton />
+        </NavigationMenuLink>
+      </NavigationMenuItem>
+    </NavigationMenuList>
+  </NavigationMenu>
 </template>
+
+<style>
+  nav > div {
+    width: 100%;
+  }
+</style>
