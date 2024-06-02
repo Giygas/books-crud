@@ -15,7 +15,6 @@
   watch(
     () => route.name,
     () => {
-      console.log("route", route)
       if (route.params.id) {
         bookId = Number(route.params.id)
         showDelete = true

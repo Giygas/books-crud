@@ -11,14 +11,31 @@
     AlertDialogTitle,
     AlertDialogTrigger,
   } from "@/components/ui/alert-dialog"
+  import { useMessageData } from "~/lib/store"
 
   // The component receives the book id to delete
   const props = defineProps<{
     bookId: number
   }>()
 
-  function handleDelete() {
+  // Use the global messageData object for sending messages through the app
+  const messageData = useMessageData()
+
+  async function handleDelete() {
     console.log(props.bookId)
+
+    const { data } = await useLazyFetch(`/api/books/${props.bookId}`, {
+      method: "DELETE",
+      body: {
+        id: props.bookId,
+      },
+    })
+
+    if (data.value) {
+      messageData.value = { ...data.value }
+
+      navigateTo("/")
+    }
   }
 </script>
 
