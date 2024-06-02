@@ -5,21 +5,22 @@
   import type { Book } from "~/server/database/schema"
   import { Skeleton } from "@/components/ui/skeleton"
   import { toast } from "vue-sonner"
+  import { useMessageData } from "~/lib/store"
 
   const { id: bookId } = useRoute().params
 
   const intId = Number(bookId)
 
-  const { data } = await useFetch<Book>(`/api/books/${bookId}`)
-
-  const book = data.value
+  const { pending: bookPending, data: bookFetch } = await useFetch<Book>(
+    `/api/books/${bookId}`
+  )
 
   interface WorkDescription {
     description?: string | { value: string }
   }
 
   const { pending, data: work } = await useLazyFetch<WorkDescription>(
-    `https://openlibrary.org${book?.openLibraryKey}.json`
+    `https://openlibrary.org${bookFetch.value?.openLibraryKey}.json`
   )
 
   const isLoaded = useState("isLoaded")
@@ -43,6 +44,13 @@
       toast.error(result.message)
     }
   }
+
+  const messageData = useMessageData()
+
+  // Refresh the page data when a db message goes through
+  watch(messageData, async () => {
+    await refreshNuxtData()
+  })
 </script>
 
 <template>
@@ -51,29 +59,32 @@
       <ChevronLeft class="w-4 h-4" />
     </Button>
 
-    <div v-if="book" class="flex flex-row mt-10 p-16 gap-10 w-full">
+    <div v-if="bookFetch" class="flex flex-row mt-10 p-16 gap-10 w-full">
       <div class="shrink-0 h-[125px] w-[250px]">
         <div v-if="loading">
           <Skeleton class="h-[350px] w-[250px] rounded-xl" />
         </div>
         <div v-show="isLoaded">
           <img
-            :src="book.coverURL"
+            :src="bookFetch.coverURL"
             class="object-cover object-center rounded-lg"
-            alt="{{ book.title }} cover"
+            alt="{{ bookFetch.title }} cover"
             @load="imgLoaded"
           />
         </div>
       </div>
       <div class="flex flex-col gap-2 grow">
-        <h2 class="text-6xl pb-8">{{ book.title }}</h2>
-        <h3 class="text-xl"><strong>Author:</strong> {{ book.author }}</h3>
+        <h2 class="text-6xl pb-8">
+          {{ bookPending ? "Loading..." : bookFetch.title }}
+        </h2>
+        <h3 class="text-xl"><strong>Author:</strong> {{ bookFetch.author }}</h3>
         <h3 class="text-xl">
           <strong>Publication Year:</strong>
-          {{ book.publicationYear }}
+          {{ bookFetch.publicationYear }}
         </h3>
         <h3 class="text-xl">
-          <strong>ISBN:</strong> {{ book.isbn ? book.isbn : "Not specified" }}
+          <strong>ISBN:</strong>
+          {{ bookFetch.isbn ? bookFetch.isbn : "Not specified" }}
         </h3>
         <h3 class="text-xl">
           <strong>Description:</strong>
@@ -101,11 +112,11 @@
             <p v-else class="text-lg">No description for this book</p>
           </div>
         </h3>
-        <div class="mb-0 mt-auto mr-0 ml-auto">
+        <div class="flex flex-row justify-end gap-4">
           <Button
             variant="secondary"
             class="hover:bg-lime-200"
-            @click="addToLibrary(book)"
+            @click="addToLibrary(bookFetch)"
             >Add to Library</Button
           >
 

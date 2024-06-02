@@ -26,7 +26,7 @@
   />
 
   <NuxtLayout>
-    <xtPage
+    <NuxtPage
       :transition="{
         name: 'bounce',
         mode: 'out-in',
