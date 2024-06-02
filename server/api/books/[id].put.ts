@@ -34,7 +34,7 @@ export default defineEventHandler(async (event) => {
       setResponseStatus(event, 500)
       return { success: false, error: true, message: String() }
     }
-    setResponseStatus(event, 201)
+    setResponseStatus(event, 202)
     return {
       success: true,
       message: "The book has been updated",

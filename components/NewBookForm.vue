@@ -138,11 +138,13 @@
     }"
     @submit="onSubmit"
   >
-    <Button v-if="isUpdatePage" type="submit" class="mt-5 w-full">
-      Update
-    </Button>
-    <Button v-if="!isUpdatePage" type="submit" class="mt-5 w-full">
-      Submit
-    </Button>
+    <DialogClose as-child>
+      <Button v-if="isUpdatePage" type="submit" class="mt-5 w-full">
+        Update
+      </Button>
+      <Button v-if="!isUpdatePage" type="submit" class="mt-5 w-full">
+        Submit
+      </Button>
+    </DialogClose>
   </AutoForm>
 </template>
