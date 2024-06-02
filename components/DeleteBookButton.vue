@@ -22,8 +22,6 @@
   const messageData = useMessageData()
 
   async function handleDelete() {
-    console.log(props.bookId)
-
     const { data } = await useLazyFetch(`/api/books/${props.bookId}`, {
       method: "DELETE",
       body: {

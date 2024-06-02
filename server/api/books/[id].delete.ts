@@ -1,29 +1,18 @@
 // TODO: delete book by id
 import { eq } from "drizzle-orm"
 import { db } from "~/server/database/db"
-import { books, selectBookSchema, type Book } from "~/server/database/schema"
+import { books, selectBookSchema } from "~/server/database/schema"
 
 export default defineEventHandler(async (event) => {
   const bookId = Number(getRouterParam(event, "id"))
 
-  // const deletedBook = await db
-  //   .delete(books)
-  //   .where(eq(books.id, bookId))
-  //   .returning()
-
-  const deletedBooks: Book[] = await db
-    .select()
-    .from(books)
+  const deletedBook = await db
+    .delete(books)
     .where(eq(books.id, bookId))
-    .limit(1)
+    .returning()
 
-  const deletedBook = deletedBooks[0]
-
-  console.log(deletedBook)
   if (deletedBook) {
-    const parsedBook = selectBookSchema.parse(deletedBook)
-
-    console.log("Book:")
+    const parsedBook = selectBookSchema.parse(deletedBook[0])
 
     setResponseStatus(event, 200)
     return {

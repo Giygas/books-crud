@@ -9,8 +9,13 @@
 
   const route = useRoute()
 
-  let bookId: number | undefined = undefined
-  let showDelete: boolean = false
+  let bookId: number | undefined
+  let showDelete: boolean
+
+  if (route.params.id) {
+    bookId = Number(route.params.id)
+    showDelete = true
+  }
 
   watch(
     () => route.name,
