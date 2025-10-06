@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+.nuxt/
+dist/
+.output/
+
+# UI components (third-party)
+components/ui/
+
+# Type definitions
+*.d.ts
+
+# Generated files
+.auto-imports.d.ts
+.components.d.ts
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db

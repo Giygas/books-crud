@@ -1,15 +1,15 @@
 <script setup lang="ts">
-  import { selectBookSchema, type Book } from "~/server/database/schema"
+import { selectBookSchema, type Book } from "~/server/database/schema";
 
-  const route = useRoute()
+const route = useRoute();
 
-  const { data } = await useFetch("/api/books")
+const { data } = await useFetch("/api/books");
 
-  let books: Book[] = []
-  if (data.value !== null) {
-    const parsedBooks = data.value.map((item) => selectBookSchema.parse(item))
-    books = parsedBooks
-  }
+let books: Book[] = [];
+if (data.value !== null) {
+  const parsedBooks = data.value.map((item) => selectBookSchema.parse(item));
+  books = parsedBooks;
+}
 </script>
 <template>
   <div :key="route.fullPath">

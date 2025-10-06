@@ -1,16 +1,16 @@
 <script setup lang="ts">
-  import { Icon } from "@iconify/vue"
-  import { Button } from "@/components/ui/button"
+import { Icon } from "@iconify/vue";
+import { Button } from "@/components/ui/button";
 
-  const colorMode = useColorMode()
+const colorMode = useColorMode();
 
-  const toggleMode = () => {
-    if (colorMode.preference == "light") {
-      colorMode.preference = "dark"
-    } else {
-      colorMode.preference = "light"
-    }
+const toggleMode = () => {
+  if (colorMode.preference == "light") {
+    colorMode.preference = "dark";
+  } else {
+    colorMode.preference = "light";
   }
+};
 </script>
 
 <template>

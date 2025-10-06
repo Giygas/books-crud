@@ -11,9 +11,9 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:seed": "tsx ./server/database/seed.ts",
-    "lint": "eslint .",
+    "lint": "eslint . --ignore-pattern 'components/ui/**'",
     "lint:prettier": "prettier . --check",
-    "lintfix": "eslint . --fix && prettier --write --list-different ."
+    "lintfix": "eslint . --ignore-pattern 'components/ui/**' --fix && prettier --write --list-different ."
   },
   "dependencies": {
     "@libsql/client": "^0.5.2",

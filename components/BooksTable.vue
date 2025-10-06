@@ -1,24 +1,24 @@
 <script setup lang="ts">
-  import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-  } from "@/components/ui/table"
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
-  import type { Book } from "~/server/database/schema"
+import type { Book } from "~/server/database/schema";
 
-  // Define the props with explicit types
-  const props = defineProps<{
-    books: Book[]
-  }>()
+// Define the props with explicit types
+const props = defineProps<{
+  books: Book[];
+}>();
 
-  function handleClick(bookId: number) {
-    return navigateTo(`/book/${bookId}`)
-  }
+function handleClick(bookId: number) {
+  return navigateTo(`/book/${bookId}`);
+}
 </script>
 
 <template>

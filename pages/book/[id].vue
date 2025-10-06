@@ -1,56 +1,56 @@
 <script setup lang="ts">
-  import { Button } from "@/components/ui/button"
-  import { ChevronLeft } from "lucide-vue-next"
-  import { addBookToLocal } from "~/lib/utils"
-  import type { Book } from "~/server/database/schema"
-  import { Skeleton } from "@/components/ui/skeleton"
-  import { toast } from "vue-sonner"
-  import { useMessageData } from "~/lib/store"
+import { Button } from "@/components/ui/button";
+import { ChevronLeft } from "lucide-vue-next";
+import { addBookToLocal } from "~/lib/utils";
+import type { Book } from "~/server/database/schema";
+import { Skeleton } from "@/components/ui/skeleton";
+import { toast } from "vue-sonner";
+import { useMessageData } from "~/lib/store";
 
-  const { id: bookId } = useRoute().params
+const { id: bookId } = useRoute().params;
 
-  const intId = Number(bookId)
+const intId = Number(bookId);
 
-  const { pending: bookPending, data: bookFetch } = await useFetch<Book>(
-    `/api/books/${bookId}`
-  )
+const { pending: bookPending, data: bookFetch } = await useFetch<Book>(
+  `/api/books/${bookId}`,
+);
 
-  interface WorkDescription {
-    description?: string | { value: string }
+interface WorkDescription {
+  description?: string | { value: string };
+}
+
+const { pending, data: work } = await useLazyFetch<WorkDescription>(
+  `https://openlibrary.org${bookFetch.value?.openLibraryKey}.json`,
+);
+
+const isLoaded = useState("isLoaded");
+const loading = useState("loading");
+
+isLoaded.value = false;
+loading.value = true;
+
+const imgLoaded = () => {
+  loading.value = false;
+  isLoaded.value = true;
+};
+
+const addToLibrary = (book: Book) => {
+  const result = addBookToLocal(book);
+  if (result.success) {
+    toast.success(result.message, {
+      description: book.title + " by: " + book.author,
+    });
+  } else {
+    toast.error(result.message);
   }
+};
 
-  const { pending, data: work } = await useLazyFetch<WorkDescription>(
-    `https://openlibrary.org${bookFetch.value?.openLibraryKey}.json`
-  )
+const messageData = useMessageData();
 
-  const isLoaded = useState("isLoaded")
-  const loading = useState("loading")
-
-  isLoaded.value = false
-  loading.value = true
-
-  const imgLoaded = () => {
-    loading.value = false
-    isLoaded.value = true
-  }
-
-  const addToLibrary = (book: Book) => {
-    const result = addBookToLocal(book)
-    if (result.success) {
-      toast.success(result.message, {
-        description: book.title + " by: " + book.author,
-      })
-    } else {
-      toast.error(result.message)
-    }
-  }
-
-  const messageData = useMessageData()
-
-  // Refresh the page data when a db message goes through
-  watch(messageData, async () => {
-    await refreshNuxtData()
-  })
+// Refresh the page data when a db message goes through
+watch(messageData, async () => {
+  await refreshNuxtData();
+});
 </script>
 
 <template>

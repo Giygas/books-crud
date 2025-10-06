@@ -25,12 +25,11 @@ const books = getBooksInStorage();
     <div v-else class="grid grid-cols-auto-fill-100 gap-4">
       <div v-for="book in books" :key="book.id">
         <a :href="`/book/${book.id}`">
-        <img :src="book.coverURL" :alt="`${book.title} cover`" />
-        <div class="flex flex-col my-4">
-          <h4 class="text-xl"><strong>Title: </strong>{{ book.title }}</h4>
-          <p class="text-lg"><strong>Author: </strong>{{ book.author }}</p>
-        </div>
-
+          <img :src="book.coverURL" :alt="`${book.title} cover`" />
+          <div class="flex flex-col my-4">
+            <h4 class="text-xl"><strong>Title: </strong>{{ book.title }}</h4>
+            <p class="text-lg"><strong>Author: </strong>{{ book.author }}</p>
+          </div>
         </a>
       </div>
     </div>

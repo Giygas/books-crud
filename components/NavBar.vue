@@ -1,34 +1,34 @@
 <script setup lang="ts">
-  import {
-    NavigationMenu,
-    NavigationMenuItem,
-    NavigationMenuLink,
-    NavigationMenuList,
-    navigationMenuTriggerStyle,
-  } from "@/components/ui/navigation-menu"
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu";
 
-  const route = useRoute()
+const route = useRoute();
 
-  let bookId: number | undefined
-  let showDelete: boolean
+let bookId: number | undefined;
+let showDelete: boolean;
 
-  if (route.params.id) {
-    bookId = Number(route.params.id)
-    showDelete = true
-  }
+if (route.params.id) {
+  bookId = Number(route.params.id);
+  showDelete = true;
+}
 
-  watch(
-    () => route.name,
-    () => {
-      if (route.params.id) {
-        bookId = Number(route.params.id)
-        showDelete = true
-      } else {
-        bookId = undefined
-        showDelete = false
-      }
+watch(
+  () => route.name,
+  () => {
+    if (route.params.id) {
+      bookId = Number(route.params.id);
+      showDelete = true;
+    } else {
+      bookId = undefined;
+      showDelete = false;
     }
-  )
+  },
+);
 </script>
 
 <template>
@@ -67,7 +67,7 @@
 </template>
 
 <style>
-  nav > div {
-    width: 100%;
-  }
+nav > div {
+  width: 100%;
+}
 </style>

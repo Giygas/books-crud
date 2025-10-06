@@ -1,22 +1,22 @@
 <script setup lang="ts">
-  import { Toaster } from "@/components/ui/sonner"
-  import { toast } from "vue-sonner"
-  import { useMessageData } from "~/lib/store"
+import { Toaster } from "@/components/ui/sonner";
+import { toast } from "vue-sonner";
+import { useMessageData } from "~/lib/store";
 
-  const messages = useMessageData()
+const messages = useMessageData();
 
-  watch(messages, () => {
-    if (messages.value.success) {
-      toast.success(messages.value.message)
-    }
+watch(messages, () => {
+  if (messages.value.success) {
+    toast.success(messages.value.message);
+  }
 
-    if (messages.value.error) {
-      toast.error(messages.value.message)
-    }
-  })
-  type Theme = "light" | "dark" | "system"
+  if (messages.value.error) {
+    toast.error(messages.value.message);
+  }
+});
+type Theme = "light" | "dark" | "system";
 
-  const colorMode = useColorMode()
+const colorMode = useColorMode();
 </script>
 <template>
   <Toaster
