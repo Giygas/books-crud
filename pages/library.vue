@@ -49,14 +49,16 @@ const removeAllBooks = () => {
     </div>
 
     <!-- Loading State -->
-    <div v-if="loading" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+    <div
+      v-if="loading"
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6"
+    >
       <div v-for="i in 8" :key="`skeleton-${i}`" class="space-y-4">
-        <Skeleton class="h-[200px] w-full rounded-lg" />
+        <Skeleton class="h-[320px] w-full rounded-lg" />
         <Skeleton class="h-4 w-[200px]" />
         <Skeleton class="h-4 w-[150px]" />
       </div>
     </div>
-    
 
     <!-- Books Grid -->
     <div
@@ -75,7 +77,7 @@ const removeAllBooks = () => {
             <img
               :src="book.coverURL"
               :alt="`${book.title} cover`"
-              class="w-full h-[200px] object-cover"
+              class="w-full h-[320px] object-cover"
               loading="lazy"
             />
             <div
