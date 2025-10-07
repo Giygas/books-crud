@@ -173,7 +173,7 @@ pnpm test         # Run tests in watch mode
 pnpm test:ui      # Run tests with UI interface
 ```
 
-See [docs/TESTING.md](./docs/TESTING.md) for detailed testing documentation.
+See [docs/TESTING.md](docs/TESTING.md) for detailed testing documentation.
 
 ## 📚 Learning Resources
 
