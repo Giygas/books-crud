@@ -12,6 +12,8 @@ const props = defineProps<{
 }>();
 
 const isUpdatePage = props.bookId ? true : false;
+const isSubmitting = ref(false);
+const isLoadingBook = ref(false);
 
 // Use the global messageData object for sending messages through the app
 const messageData = useMessageData();
@@ -56,6 +58,7 @@ let form: FormContext;
 let book: Book;
 
 if (isUpdatePage) {
+  isLoadingBook.value = true;
   const { data } = await useFetch<Book>(`/api/books/${props.bookId}`);
 
   book = data.value as Book;
@@ -64,6 +67,7 @@ if (isUpdatePage) {
     validationSchema: toTypedSchema(schema),
     initialValues: { ...book },
   });
+  isLoadingBook.value = false;
 } else {
   form = useForm({
     validationSchema: toTypedSchema(schema),
@@ -72,6 +76,8 @@ if (isUpdatePage) {
 
 async function onSubmit(data: any) {
   const validatedBook = schema.parse(data);
+
+  isSubmitting.value = true;
 
   try {
     let query;
@@ -104,12 +110,20 @@ async function onSubmit(data: any) {
       error: true,
       message: String(e),
     };
+  } finally {
+    isSubmitting.value = false;
   }
 }
 </script>
 
 <template>
+  <!-- Loading state for edit form -->
+  <div v-if="isUpdatePage && isLoadingBook" class="flex justify-center py-8">
+    <LoadingSpinner type="spinner" size="md" text="Loading book data..." />
+  </div>
+
   <AutoForm
+    v-else
     :schema="schema"
     :form="form"
     :field-config="{
@@ -138,11 +152,33 @@ async function onSubmit(data: any) {
     @submit="onSubmit"
   >
     <DialogClose as-child>
-      <Button v-if="isUpdatePage" type="submit" class="mt-5 w-full">
-        Update
+      <Button
+        v-if="isUpdatePage"
+        type="submit"
+        class="mt-5 w-full"
+        :disabled="isSubmitting"
+      >
+        <span v-if="isSubmitting" class="flex items-center gap-2">
+          <div
+            class="animate-spin rounded-full h-4 w-4 border-b-2 border-current"
+          ></div>
+          Updating...
+        </span>
+        <span v-else>Update</span>
       </Button>
-      <Button v-if="!isUpdatePage" type="submit" class="mt-5 w-full">
-        Submit
+      <Button
+        v-if="!isUpdatePage"
+        type="submit"
+        class="mt-5 w-full"
+        :disabled="isSubmitting"
+      >
+        <span v-if="isSubmitting" class="flex items-center gap-2">
+          <div
+            class="animate-spin rounded-full h-4 w-4 border-b-2 border-current"
+          ></div>
+          Adding...
+        </span>
+        <span v-else>Submit</span>
       </Button>
     </DialogClose>
   </AutoForm>

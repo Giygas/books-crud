@@ -3,21 +3,71 @@ import { selectBookSchema, type Book } from "~/server/database/schema";
 
 const route = useRoute();
 
-const { data } = await useFetch("/api/books");
+const { data, pending } = await useFetch("/api/books");
 
-let books: Book[] = [];
-if (data.value !== null) {
-  const parsedBooks = data.value.map((item) => selectBookSchema.parse(item));
-  books = parsedBooks;
-}
+const books = computed(() => {
+  if (!data.value) return [];
+
+  try {
+    return data.value.map((item) => selectBookSchema.parse(item));
+  } catch (error) {
+    console.error("Failed to parse book data:", error);
+    return [];
+  }
+});
+
+const hasBooks = computed(() => books.value.length > 0);
 </script>
 <template>
   <div :key="route.fullPath">
-    <h1 class="text-6xl">Library</h1>
-    <div class="flex flex-row w-full items-center justify-between">
-      <p class="text-xl py-5">Here are the available books:</p>
+    <div class="flex justify-between items-center mb-8">
+      <div>
+        <h1 class="text-4xl font-bold text-gray-900 dark:text-white">
+          📚 Library
+        </h1>
+        <p class="text-lg text-gray-600 dark:text-gray-400 mt-2">
+          Manage your book collection with ease
+        </p>
+      </div>
       <NewBookButton :id="undefined" />
     </div>
-    <BooksTable :books="books" />
+
+    <!-- Loading State -->
+    <LoadingSpinner 
+      v-if="pending" 
+      type="spinner" 
+      size="lg" 
+      text="Loading books..." 
+      class="py-12"
+    />
+    
+    <!-- Empty State -->
+    <EmptyState
+      v-else-if="!hasBooks"
+      icon="📖"
+      title="No books yet"
+      description="Start building your library by adding your first book"
+      :onAction="() => {}"
+    >
+      <template #action>
+        <NewBookButton :id="undefined" />
+      </template>
+    </EmptyState>
+    </div>
+
+    <!-- Empty State -->
+    <div v-else-if="!hasBooks" class="text-center py-12">
+      <div class="text-6xl mb-4">📖</div>
+      <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+        No books yet
+      </h3>
+      <p class="text-gray-600 dark:text-gray-400 mb-6">
+        Start building your library by adding your first book
+      </p>
+      <NewBookButton :id="undefined" />
+    </div>
+
+    <!-- Books Table -->
+    <BooksTable v-else :books="books" :loading="pending" />
   </div>
 </template>
