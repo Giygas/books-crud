@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { getBooksInStorage } from "~/lib/utils";
+import type { Book } from "~/server/database/schema";
 import { toast } from "vue-sonner";
 import { Skeleton } from "@/components/ui/skeleton";
 
 const loading = ref(true);
-const books = ref([]);
+const books = ref<Book[]>([]);
 
 // Simulate loading for better UX
 onMounted(() => {
@@ -56,28 +57,6 @@ const removeAllBooks = () => {
       </div>
     </div>
     
-    <!-- Empty State -->
-    <EmptyState
-      v-else-if="!hasBooks"
-      icon="📖"
-      title="Your library is empty"
-      description="Start adding books to build your personal collection"
-      action-text="Browse Books"
-      action-route="/"
-    />
-    </div>
-
-    <!-- Empty State -->
-    <div v-else-if="!hasBooks" class="text-center py-20">
-      <div class="text-6xl mb-4">📖</div>
-      <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-2">
-        Your library is empty
-      </h2>
-      <p class="text-gray-600 dark:text-gray-400 mb-6">
-        Start adding books to build your personal collection
-      </p>
-      <Button @click="$router.push('/')">Browse Books</Button>
-    </div>
 
     <!-- Books Grid -->
     <div

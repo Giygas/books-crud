@@ -145,29 +145,31 @@ watch(messageData, async () => {
           </div>
 
           <!-- Description Content -->
-          <Transition
-            enter-active-class="transition-opacity duration-300"
-            enter-from-class="opacity-0"
-            enter-to-class="opacity-100"
-          >
-            <div v-else>
-              <p
-                v-if="work?.description"
-                class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed"
-              >
-                {{
-                  // Handle different description formats from Open Library API
-                  typeof work.description === "object" &&
-                  work.description !== null
-                    ? work.description.value
-                    : work.description || ""
-                }}
-              </p>
-              <p v-else class="text-lg text-gray-500 dark:text-gray-400 italic">
-                No description available for this book
-              </p>
-            </div>
-          </Transition>
+          <div v-else>
+            <Transition
+              enter-active-class="transition-opacity duration-300"
+              enter-from-class="opacity-0"
+              enter-to-class="opacity-100"
+            >
+              <div>
+                <p
+                  v-if="work?.description"
+                  class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed"
+                >
+                  {{
+                    // Handle different description formats from Open Library API
+                    typeof work.description === "object" &&
+                    work.description !== null
+                      ? work.description.value
+                      : work.description || ""
+                  }}
+                </p>
+                <p v-else class="text-lg text-gray-500 dark:text-gray-400 italic">
+                  No description available for this book
+                </p>
+              </div>
+            </Transition>
+          </div>
         </div>
 
         <div class="flex flex-row justify-end gap-4 mt-8">

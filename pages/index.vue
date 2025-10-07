@@ -53,19 +53,6 @@ const hasBooks = computed(() => books.value.length > 0);
         <NewBookButton :id="undefined" />
       </template>
     </EmptyState>
-    </div>
-
-    <!-- Empty State -->
-    <div v-else-if="!hasBooks" class="text-center py-12">
-      <div class="text-6xl mb-4">📖</div>
-      <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-        No books yet
-      </h3>
-      <p class="text-gray-600 dark:text-gray-400 mb-6">
-        Start building your library by adding your first book
-      </p>
-      <NewBookButton :id="undefined" />
-    </div>
 
     <!-- Books Table -->
     <BooksTable v-else :books="books" :loading="pending" />
