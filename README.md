@@ -26,6 +26,7 @@ A modern, full-stack web application built with Nuxt 3 that demonstrates compreh
 - **TypeScript** for type safety
 - **ESLint + Prettier** for code quality
 - **Drizzle Kit** for database migrations
+- **Vitest** for unit testing
 
 ## ✨ Features
 
@@ -37,6 +38,7 @@ A modern, full-stack web application built with Nuxt 3 that demonstrates compreh
 - **Modern UI**: Accessible components with Radix Vue
 - **Database Migrations**: Version-controlled database schema
 - **API Documentation**: RESTful API design
+- **Unit Testing**: Comprehensive test coverage for API endpoints and schemas
 
 ## 🏗️ Architecture Highlights
 
@@ -119,6 +121,9 @@ Visit `http://localhost:3000` to see the application.
 - `pnpm db:generate` - Generate database migrations
 - `pnpm db:migrate` - Run database migrations
 - `pnpm db:seed` - Seed database with sample data
+- `pnpm test` - Run tests in watch mode
+- `pnpm test:run` - Run all tests once
+- `pnpm test:ui` - Run tests with UI interface
 
 ## 🎯 What This Project Demonstrates
 
@@ -150,6 +155,26 @@ This application can be deployed to various platforms:
 - **Railway** - Full-stack deployment with database
 - **DigitalOcean** - Custom deployment
 
+## 🧪 Testing
+
+This project includes comprehensive unit tests for API endpoints and schema validation.
+
+### Test Coverage
+
+- **Schema Validation**: Tests for book data validation and type coercion
+- **API Structure**: Verification that all endpoints exist and are importable
+- **Database Operations**: Tests for database connection and schema availability
+
+### Running Tests
+
+```bash
+pnpm test:run    # Run all tests once
+pnpm test         # Run tests in watch mode
+pnpm test:ui      # Run tests with UI interface
+```
+
+See [docs/TESTING.md](./docs/TESTING.md) for detailed testing documentation.
+
 ## 📚 Learning Resources
 
 This project implements patterns and concepts from:
@@ -159,6 +184,7 @@ This project implements patterns and concepts from:
 - [Drizzle ORM](https://orm.drizzle.team/)
 - [Tailwind CSS](https://tailwindcss.com/docs)
 - [Radix Vue](https://www.radix-vue.com/)
+- [Vitest Testing](https://vitest.dev/)
 
 ---
 
